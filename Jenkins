@@ -1,0 +1,24 @@
+pipeline{
+
+    agent any
+    //agent { label 'Demo' }
+
+    parameters{
+
+        choice(name: 'action', choices: 'create\ndelete', description: 'Choose create/Destroyy')
+        string(name: 'ImageName', description: "name of the docker build", defaultValue: 'javaspringbootapp')
+        string(name: 'ImageTag', description: "tag of the docker build", defaultValue: 'Latest')
+        string(name: 'DockerHubUser', description: "name of the Application", defaultValue: 'surendarm2207')
+    }
+
+    stages{
+         
+        stage('Git Checkout'){
+                    when { expression {  params.action == 'create' } }
+            steps{
+            gitCheckout(
+                branch: "main",
+                url: "https://github.com/subalekshmi2209/JavaApp.git"
+            )
+            }
+        }
